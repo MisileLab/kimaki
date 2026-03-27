@@ -492,10 +492,54 @@ export async function registerCommands({
       .setDescription(truncateCommandDescription('Stop screen sharing'))
       .setDMPermission(false)
       .toJSON(),
+    // Single /skill command consolidates all OpenCode skills under one top-level
+    // command to keep the total registered command count well below Discord's guild
+    // slash-command cap (~100). Skills are selected at runtime via the name option.
+    new SlashCommandBuilder()
+      .setName('skill')
+      .setDescription(truncateCommandDescription('Run, list, or inspect OpenCode skills'))
+      .addSubcommand((sub) =>
+        sub
+          .setName('run')
+          .setDescription('Run a skill in this channel or thread')
+          .addStringOption((opt) =>
+            opt
+              .setName('name')
+              .setDescription('Skill to run')
+              .setRequired(true)
+              .setAutocomplete(true),
+          )
+          .addStringOption((opt) =>
+            opt
+              .setName('arguments')
+              .setDescription('Arguments to pass to the skill')
+              .setRequired(false),
+          ),
+      )
+      .addSubcommand((sub) =>
+        sub.setName('list').setDescription('List available skills'),
+      )
+      .addSubcommand((sub) =>
+        sub
+          .setName('info')
+          .setDescription('Show description for a skill')
+          .addStringOption((opt) =>
+            opt
+              .setName('name')
+              .setDescription('Skill name')
+              .setRequired(true)
+              .setAutocomplete(true),
+          ),
+      )
+      .setDMPermission(false)
+      .toJSON(),
   ]
 
-  // Add user-defined commands with source-based suffixes (-cmd / -skill)
-  // Also populate registeredUserCommands in the store for /queue-command autocomplete
+  // Add user-defined commands with source-based suffixes (-cmd / -mcp-prompt).
+  // Skills are excluded here — they are exposed via the consolidated /skill command
+  // above so we don't blow past Discord's guild slash-command cap.
+  // All user commands (including skills) are still stored in registeredUserCommands
+  // so /queue-command autocomplete and runtime lookups continue to work.
   const newRegisteredCommands: RegisteredUserCommand[] = []
   for (const cmd of userCommands) {
     if (SKIP_USER_COMMANDS.includes(cmd.name)) {
@@ -531,6 +575,11 @@ export async function registerCommands({
       description,
       source: cmd.source,
     })
+
+    // Skills are consolidated under /skill; skip individual command registration.
+    if (cmd.source === 'skill') {
+      continue
+    }
 
     commands.push(
       new SlashCommandBuilder()
