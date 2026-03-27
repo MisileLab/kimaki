@@ -85,6 +85,7 @@ import {
 } from './commands/queue.js'
 import { handleUndoCommand, handleRedoCommand } from './commands/undo-redo.js'
 import { handleUserCommand } from './commands/user-command.js'
+import { handleSkillCommand, handleSkillAutocomplete } from './commands/skill.js'
 import {
   handleVerbosityCommand,
   handleVerbositySelectMenu,
@@ -163,6 +164,10 @@ export function registerInteractionHandler({
 
             case 'merge-worktree':
               await handleMergeWorktreeAutocomplete({ interaction, appId })
+              return
+
+            case 'skill':
+              await handleSkillAutocomplete({ interaction, appId })
               return
 
             default:
@@ -363,6 +368,10 @@ export function registerInteractionHandler({
                 appId,
               })
               return
+
+            case 'skill':
+              await handleSkillCommand({ command: interaction, appId })
+              return
           }
 
           // Handle quick agent commands (ending with -agent suffix, but not the base /agent command)
@@ -374,10 +383,9 @@ export function registerInteractionHandler({
             return
           }
 
-          // Handle user-defined commands (ending with -cmd, -skill, or -mcp-prompt suffix)
+          // Handle user-defined commands (ending with -cmd or -mcp-prompt suffix)
           if (
             interaction.commandName.endsWith('-cmd') ||
-            interaction.commandName.endsWith('-skill') ||
             interaction.commandName.endsWith('-mcp-prompt')
           ) {
             await handleUserCommand({ command: interaction, appId })
