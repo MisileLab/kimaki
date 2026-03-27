@@ -1,10 +1,11 @@
 {
-  "name": "kimaki",
+  "name": "@MisileLab/kimaki",
   "module": "index.ts",
   "type": "module",
   "version": "0.4.83",
   "scripts": {
     "dev": "tsx src/cli.ts",
+    "build": "prisma generate && tsc",
     "prepublishOnly": "pnpm generate && pnpm tsc",
     "dev:bun": "DEBUG=1 bun --env-file .env src/cli.ts",
     "watch": "tsx scripts/watch-session.ts",
@@ -19,7 +20,11 @@
     "format": "oxfmt src",
     "sync-skills": "tsx scripts/sync-skills.ts"
   },
-  "repository": "https://github.com/remorses/kimaki",
+  "repository": "https://github.com/MisileLab/kimaki",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
   "bin": "bin.js",
   "files": [
     "dist",

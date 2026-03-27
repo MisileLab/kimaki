@@ -2,13 +2,13 @@
   "name": "root",
   "private": true,
   "bin": {
-    "kimaki": "pnpm --filter kimaki play"
+    "kimaki": "pnpm --filter @MisileLab/kimaki play"
   },
   "scripts": {
-    "test": "NODE_ENV=test pnpm --filter discord run vitest",
-    "dev": "pnpm --filter kimaki dev",
+    "test": "NODE_ENV=test pnpm --filter @MisileLab/kimaki run vitest",
+    "dev": "pnpm --filter @MisileLab/kimaki dev",
     "agents.md": "agentsdotmd ./KIMAKI_AGENTS.md core.md typescript.md pnpm.md sentry.md vitest.md gitchamber.md changelog.md docs-writing.md cac.md shadcn.md tailwind.md spiceflow.md vercel-ai-sdk.md playwright.md zod.md",
-    "kimaki": "pnpm --filter kimaki play"
+    "kimaki": "pnpm --filter @MisileLab/kimaki play"
   },
   "devDependencies": {
     "oxfmt": "^0.24.0",
