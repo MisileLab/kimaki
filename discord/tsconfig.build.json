@@ -1,4 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "exclude": ["scripts", "src/**/*.test.ts", "src/**/*.e2e.test.ts"]
+  "exclude": [
+    "scripts",
+    "src/**/*.test.ts",
+    "src/**/*.e2e.test.ts",
+    "src/test-utils.ts",
+    "src/queue-advanced-e2e-setup.ts"
+  ]
 }
