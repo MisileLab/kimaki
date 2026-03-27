@@ -3,7 +3,7 @@
   "private": true,
   "bin": {
     "kimaki": "pnpm --filter kimaki play"
-  }
+  },
   "scripts": {
     "test": "NODE_ENV=test pnpm --filter discord run vitest",
     "dev": "pnpm --filter kimaki dev",
