@@ -27,12 +27,13 @@ jobs:
           node-version: "22"
           registry-url: "https://npm.pkg.github.com"
           scope: "@MisileLab"
+          cache: "pnpm"
 
-      - name: Publish to GitHub Packages
-        working-directory: discord
-        run: pnpm publish --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install sqlite3
+        run: sudo apt-get update && sudo apt-get install --yes sqlite3
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
       - name: Publish to GitHub Packages
         working-directory: discord
