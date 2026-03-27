@@ -35,6 +35,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build workspace publish prerequisites
+        run: pnpm --filter errore --filter traforo --filter libsqlproxy build
+
       - name: Publish to GitHub Packages
         working-directory: discord
         run: pnpm publish --no-git-checks

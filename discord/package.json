@@ -5,8 +5,8 @@
   "version": "0.4.83",
   "scripts": {
     "dev": "tsx src/cli.ts",
-    "build": "prisma generate && tsc",
-    "prepublishOnly": "pnpm generate && pnpm tsc",
+    "build": "prisma generate && rm -rf dist && tsc -p tsconfig.build.json",
+    "prepublishOnly": "pnpm generate && rm -rf dist && pnpm tsc -p tsconfig.build.json",
     "dev:bun": "DEBUG=1 bun --env-file .env src/cli.ts",
     "watch": "tsx scripts/watch-session.ts",
     "generate": "prisma generate && pnpm generate:sql",
